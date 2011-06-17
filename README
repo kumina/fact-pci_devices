@@ -1,0 +1,5 @@
+This script is used to create facter facts based on lspci. Just put it in your puppetmodule/lib/facter directory and alter the code to your specific fact-needs.
+
+The script only requires and lspci binary and has been tested on Debian Lenny and Squeeze
+
+This code is provided as-is and is licenced under the GPLv3.
