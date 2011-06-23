@@ -16,18 +16,26 @@
 # The latest version of this script is available on github at
 # https://github.com/kumina/fact-pci_devices
 
-if FileTest.exists?("/usr/bin/lspci")
+def add_fact(fact, code)
+  Facter.add(fact) { setcode { code } }
+end
 
-  def add_fact(fact, code)
-    Facter.add(fact) { setcode { code } }
-  end
+case Facter.value(:operatingsystem)
+  when /Debian|Ubuntu/i
+    lspci = "/usr/bin/lspci"
+  when /RedHat|CentOS|Fedora|Scientific/i
+    lspci = "/sbin/lspci"
+end
 
+exit 0 if lspci.empty? # We can't do this if we don't know the location of lspci
+
+if FileTest.exists?(lspci)
   # Create a hash of ALL PCI devices, the key is the PCI slot ID.
   # { SLOT_ID => { ATTRIBUTE => VALUE }, ... }
   slot=""
   # after the following loop, devices will contain ALL PCI devices and the info returned from lspci
   devices = {}
-  %x{/usr/bin/lspci -v -mm -k}.each_line do |line|
+  %x{#{lspci} -v -mm -k}.each_line do |line|
     if not line =~ /^$/ # We don't need to parse empty lines
       splitted = line.split(/\t/)
       # lspci has a nice syntax:
