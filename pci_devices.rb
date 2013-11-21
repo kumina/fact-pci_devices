@@ -23,7 +23,7 @@ end
 case Facter.value(:operatingsystem)
   when /Debian|Ubuntu/i
     lspci = "/usr/bin/lspci"
-  when /RedHat|CentOS|Fedora|Scientific/i
+  when /RedHat|CentOS|Fedora|Scientific|SLES/i
     lspci = "/sbin/lspci"
   else
     lspci = ""
