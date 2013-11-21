@@ -25,6 +25,8 @@ case Facter.value(:operatingsystem)
     lspci = "/usr/bin/lspci"
   when /RedHat|CentOS|Fedora|Scientific/i
     lspci = "/sbin/lspci"
+  else
+    lspci = ""
 end
 
 exit 0 if lspci.empty? # We can't do this if we don't know the location of lspci
