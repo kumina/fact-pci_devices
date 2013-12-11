@@ -29,9 +29,8 @@ case Facter.value(:operatingsystem)
     lspci = ""
 end
 
-exit 0 if lspci.empty? # We can't do this if we don't know the location of lspci
-
-if FileTest.exists?(lspci)
+# We can't do this if we don't know the location of lspci
+if !lspci.empty? and FileTest.exists?(lspci)
   # Create a hash of ALL PCI devices, the key is the PCI slot ID.
   # { SLOT_ID => { ATTRIBUTE => VALUE }, ... }
   slot=""
